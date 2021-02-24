@@ -1,7 +1,7 @@
 import React from "react";
 import "src/standUp/static/styles/task.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faAngleDoubleRight, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 class Task extends React.Component {
   Status = Object.freeze({
@@ -66,7 +66,13 @@ class Task extends React.Component {
           onClick={() => this.setStatus(this.Status.FINISHED)}
         >
           <FontAwesomeIcon icon={faCheck}/>      
-        </div>    
+        </div>
+        <div
+          className="taskOption delete"
+          onClick={() => this.setStatus(this.Status.FINISHED)}
+        >
+          <FontAwesomeIcon icon={faTimes}/>      
+        </div>
       </div>
     );
   }

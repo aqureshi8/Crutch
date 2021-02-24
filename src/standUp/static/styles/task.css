@@ -4,6 +4,7 @@
   border: transparent;
   border-style: solid;
   border-width: 1px;
+  position: relative;
 }
   
 .task:hover {
@@ -27,6 +28,8 @@
 }
 
 .taskStatus {
+  top: 0px;
+  bottom: 0px;
   margin-left: 10px;
   display: inline-block;
   border-style: solid;
@@ -36,6 +39,29 @@
   border-radius: 100%;
   padding: 5px;
   text-align: center;
+}
+
+.taskOption {
+  visibility: hidden;
+  float: right;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  margin-top: auto;
+  margin-bottom: auto;
+  right: 0px;
+  margin-right: 10px;
+  border-style: solid;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  padding: 5px;
+  text-align: center;
+}
+
+.task:hover .taskOption {
+  visibility: visible;
 }
 
 .inProgress {
@@ -48,4 +74,8 @@
 
 .unselected {
   color: lightgrey;
+}
+
+.delete {
+  color: red;
 }
