@@ -1,4 +1,7 @@
 import React from "react";
+import "src/standUp/static/styles/task.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
 
 class Task extends React.Component {
   Status = Object.freeze({
@@ -17,14 +20,26 @@ class Task extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.input.focus();
+  }
+
   handleChange(event) {
     this.setState({
       name: event.target.value
     });
   }
 
-  componentDidMount() {
-    this.input.focus()
+  setStatus(status) {
+    if (status === this.state.status) {
+      this.setState({
+        status: this.Status.NOT_STARTED
+      });
+    } else {
+      this.setState({
+        status: status
+      });
+    }
   }
 
   render() {
@@ -40,6 +55,18 @@ class Task extends React.Component {
           onChange={(event) => this.handleChange(event)}
           onKeyUp={(event) => this.props.onKeyUp(event)}
         />
+        <div
+          className={"taskStatus inProgress" + (this.state.status === this.Status.NOT_STARTED ? " unselected" : "")}
+          onClick={() => this.setStatus(this.Status.IN_PROGRESS)}
+        >
+          <FontAwesomeIcon icon={faAngleDoubleRight} />
+        </div>
+        <div
+          className={"taskStatus finished" + (this.state.status !== this.Status.FINISHED ? " unselected" : "")}
+          onClick={() => this.setStatus(this.Status.FINISHED)}
+        >
+          <FontAwesomeIcon icon={faCheck}/>      
+        </div>    
       </div>
     );
   }

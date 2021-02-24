@@ -1,5 +1,5 @@
 import React from 'react';
-import "src/standUp/static/style.css";
+import "src/standUp/static/styles/standUp.css";
 import Task from 'src/standUp/task';
 
 class StandUp extends React.Component {
