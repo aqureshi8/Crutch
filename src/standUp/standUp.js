@@ -1,12 +1,13 @@
 import React from 'react';
 import "src/standUp/static/styles/standUp.css";
 import Task from 'src/standUp/task';
+import { v4 as uuidv4 } from 'uuid';
 
 class StandUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: new Date(Date.now()),
+      date: props.date,
       tasks: [],
     };
   }
@@ -15,20 +16,29 @@ class StandUp extends React.Component {
     this.addTask();
   }
 
-  handleKeyUp(event, key) {
+  handleKeyUp(event, id) {
     const tasks = this.state.tasks;
-    if (event.keyCode === 13 && key === tasks.length - 1) {
+    if (event.keyCode === 13 && tasks[tasks.length - 1].props.id === id) {
       event.preventDefault();
       this.addTask()
     }
   }
 
+  removeTask(id) {
+    this.setState({
+      tasks: this.state.tasks.filter(task => task.props.id != id)
+    });
+  }
+
   addTask() {
-    let tasks = this.state.tasks;
+    const tasks = this.state.tasks;
+    const id = uuidv4();
     let updatedTasks = tasks.concat([
       <Task
-        key={tasks.length}
-        onKeyUp={(event) => this.handleKeyUp(event, tasks.length)}
+        key={id}
+        id={id}
+        onKeyUp={(event) => this.handleKeyUp(event, id)}
+        handleRemove={() => this.removeTask(id)}
       />
     ]);
     this.setState({
@@ -37,10 +47,8 @@ class StandUp extends React.Component {
   }
 
   render() {
-    const title = this.state.date.toDateString();
     return (
       <div>
-        <div className="title">{title}</div>
         {this.state.tasks}
         <button
           id="addTask"

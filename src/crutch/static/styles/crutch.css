@@ -1,0 +1,26 @@
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.dateToggle {
+  text-align: center;
+}
+
+.dateToggleButton {
+  padding-top: 10px;
+  font-size: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
+  color: grey;
+  display: inline-block;
+}
+
+.title {
+  font-size: 30px;
+  font-style: italic;
+  display: inline-block;
+}

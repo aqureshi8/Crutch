@@ -12,9 +12,10 @@ class Task extends React.Component {
 
   constructor(props) {
     super(props);
-    let name = props.name ? props.name : "";
+    const name = props.name ? props.name : "";
+    const id = props.id ? props.id : "";
     this.state = {
-      id: null,
+      id: id,
       name: name,
       status: this.Status.NOT_STARTED,
     };
@@ -46,7 +47,6 @@ class Task extends React.Component {
     return (
       <div className="task">
         <input
-          id="name"
           className="taskName"
           type="text"
           ref={(input) => this.input = input}
@@ -65,13 +65,13 @@ class Task extends React.Component {
           className={"taskStatus finished" + (this.state.status !== this.Status.FINISHED ? " unselected" : "")}
           onClick={() => this.setStatus(this.Status.FINISHED)}
         >
-          <FontAwesomeIcon icon={faCheck}/>      
+          <FontAwesomeIcon icon={faCheck} />      
         </div>
         <div
           className="taskOption delete"
-          onClick={() => this.setStatus(this.Status.FINISHED)}
+          onClick={() => this.props.handleRemove()}
         >
-          <FontAwesomeIcon icon={faTimes}/>      
+          <FontAwesomeIcon icon={faTimes} />
         </div>
       </div>
     );

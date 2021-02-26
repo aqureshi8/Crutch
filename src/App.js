@@ -1,7 +1,7 @@
 import React from 'react';
 import "src/static/style.css";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import StandUp from "src/standUp/standUp";
+import Crutch from "src/crutch/crutch";
 
 class App extends React.Component {
   render() {
@@ -13,7 +13,7 @@ class App extends React.Component {
             <div className="appDescription">It helps you Stand Up</div>
           </div>
           <Switch>
-            <Route path="/" exact component={StandUp} />
+            <Route path="/" exact component={Crutch} />
           </Switch>
         </div>
       </Router>

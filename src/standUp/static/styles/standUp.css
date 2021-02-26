@@ -15,10 +15,3 @@
 .add:focus {
   outline: none;
 }
-
-.title {
-  font-size: 25px;
-  font-style: italic;
-  padding-top: 10px;
-  padding-left: 10px;
-}
