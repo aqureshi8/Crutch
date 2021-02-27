@@ -39,6 +39,7 @@
   border-radius: 100%;
   padding: 5px;
   text-align: center;
+  cursor: pointer;
 }
 
 .taskOption {
@@ -58,6 +59,7 @@
   border-radius: 100%;
   padding: 5px;
   text-align: center;
+  cursor: pointer;
 }
 
 .task:hover .taskOption {

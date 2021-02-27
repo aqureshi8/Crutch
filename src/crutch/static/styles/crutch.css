@@ -19,8 +19,13 @@
   display: inline-block;
 }
 
+.disabledToggle {
+  visibility: hidden;
+}
+
 .title {
   font-size: 30px;
   font-style: italic;
   display: inline-block;
+  width: 300px;
 }
