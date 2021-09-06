@@ -2,13 +2,15 @@ import React from 'react';
 import "src/standUp/static/styles/standUp.css";
 import Task from 'src/standUp/task';
 import { v4 as uuidv4 } from 'uuid';
+import TaskModel from './models/taskModel';
 
 class StandUp extends React.Component {
   constructor(props) {
     super(props);
+    this.model = props.model;
     this.state = {
-      date: props.date,
-      tasks: [],
+      date: this.model.date,
+      tasks: this.model.tasks,
     };
   }
 
@@ -18,38 +20,44 @@ class StandUp extends React.Component {
 
   handleKeyUp(event, id) {
     const tasks = this.state.tasks;
-    if (event.keyCode === 13 && tasks[tasks.length - 1].props.id === id) {
+    if (event.keyCode === 13 && tasks[tasks.length - 1].id === id) {
       event.preventDefault();
-      this.addTask()
+      this.addTask();
     }
   }
 
   removeTask(id) {
     this.setState({
-      tasks: this.state.tasks.filter(task => task.props.id != id)
+      tasks: this.state.tasks.filter(task => task.id != id)
     });
   }
 
   addTask() {
     const tasks = this.state.tasks;
-    const id = uuidv4();
     let updatedTasks = tasks.concat([
-      <Task
-        key={id}
-        id={id}
-        onKeyUp={(event) => this.handleKeyUp(event, id)}
-        handleRemove={() => this.removeTask(id)}
-      />
+      new TaskModel({date: this.state.date})
     ]);
     this.setState({
       tasks: updatedTasks,
     });
   }
 
+  renderTask(task) {
+    return (
+      <Task
+        key={task.id}
+        model={task}
+        onKeyUp={(event, id) => this.handleKeyUp(event, id)}
+        handleRemove={(id) => this.removeTask(id)}
+      />
+    );
+  }
+
   render() {
+    const tasks = this.state.tasks.map((task) => this.renderTask(task));
     return (
       <div>
-        {this.state.tasks}
+        {tasks}
         <button
           id="addTask"
           className="add"

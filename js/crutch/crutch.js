@@ -1,5 +1,7 @@
 import React from 'react';
 import StandUp from 'src/standUp/standUp';
+import StandUpModel from 'src/standUp/models/standUpModel';
+import { v4 as uuidv4 } from 'uuid';
 import 'src/crutch/static/styles/crutch.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretSquareLeft, faCaretSquareRight } from '@fortawesome/free-regular-svg-icons';
@@ -19,14 +21,13 @@ class Crutch extends React.Component {
     //LOAD LAST 10 Stand ups
     let standUps = [];
     for(var x = 9; x > 0; x--) {
-      let xDaysAgo = new Date();
+      const xDaysAgo = new Date();
       xDaysAgo.setDate(new Date().getDate() - x);
-      standUps.push(<StandUp date={xDaysAgo} />);
+      const standUp = new StandUpModel({date: xDaysAgo});
+      standUps.push(standUp);
     }
     //Current standup
-    standUps = standUps.concat([
-      <StandUp date={new Date(Date.now())}/>
-    ]);
+    standUps = standUps.concat([new StandUpModel()]);
     return standUps;
   }
 
@@ -37,11 +38,20 @@ class Crutch extends React.Component {
     });
   }
 
+  renderStandUp(standUp) {
+    return (
+      <StandUp
+        key={standUp.id}
+        model={standUp}
+      />
+    );
+  }
+
   render() {
     const standUps = this.state.standUps;
     const currentStandUp = this.state.currentStandUp;
     const displayStandUp = standUps[currentStandUp];
-    const title = displayStandUp.props.date.toDateString();
+    const title = displayStandUp.date.toDateString();
     const leftToggleDisabled = currentStandUp - 1 < 0
     const rightToggleDisabled = currentStandUp + 1 >= standUps.length;
     return (
@@ -61,7 +71,7 @@ class Crutch extends React.Component {
             <FontAwesomeIcon icon={faCaretSquareRight} />
           </div>
         </div>
-        {displayStandUp}
+        {this.renderStandUp(displayStandUp)}
       </div>
     );
   }
