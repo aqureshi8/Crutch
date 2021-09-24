@@ -1,16 +1,12 @@
-import StandUp from "../standUp";
 import { v4 as uuidv4 } from 'uuid';
 
-
 class StandUpModel {
-  constructor(params) {
-    if (!params) {
-      params = {};
-    }
+  static create(date) {
+    this.create(undefined, date, undefined);
+  }
 
-    this.id = params.id ? params.id : uuidv4();
-    this.date = params.date ? params.date : new Date(Date.now());
-    this.tasks = params.tasks ? params.tasks : [];
+  static create(id =  uuidv4(), date = new Date(Date.now()), tasks = []) {
+    return {id: id, date: date, tasks: tasks}
   }
 }
 

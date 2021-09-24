@@ -7,15 +7,17 @@ class TaskModel {
     FINISHED: "Finished",
   });
 
-  constructor(params) {
+  static create(params) {
     if (!params) {
       params = {};
     }
 
-    this.id = params.id ? params.id : uuidv4();
-    this.name = params.name ? params.name : "";
-    this.date = params.date ? params.date : new Date(Date.now());
-    this.Status = params.status ? params.status : TaskModel.Status.NOT_STARTED;
+    return {
+        id: params.id ? params.id : uuidv4(),
+        name: params.name ? params.name : "",
+        date: params.date ? params.date : new Date(Date.now()),
+        status: params.status ? params.status : TaskModel.Status.NOT_STARTED
+    }
   }
 }
 

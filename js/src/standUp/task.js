@@ -9,29 +9,13 @@ class Task extends React.Component {
 
   constructor(props) {
     super(props);
-    this.model = props.model;
-    this.state = {
-      id: this.model.id,
-      name: this.model.name,
-      date: this.model.date,
-      status: TaskModel.Status.NOT_STARTED,
-    };
+    this.id = props.model.id;
+    this.status = TaskModel.Status.NOT_STARTED;
+    this.name = props.model.name;
   }
 
   componentDidMount() {
     this.input.focus();
-  }
-
-  updateModel() {
-    this.model.name = this.state.name;
-    this.model.status = this.state.status;
-  }
-
-  handleChange(event) {
-    this.setState({
-      name: event.target.value
-    });
-    this.updateModel();
   }
 
   setStatus(status) {
@@ -44,7 +28,6 @@ class Task extends React.Component {
         status: status
       });
     }
-    this.updateModel();
   }
 
   render() {
@@ -53,7 +36,7 @@ class Task extends React.Component {
       taskStatus.push(
         <div
           key="statusInProgress"
-          className={"taskStatus inProgress" + (this.state.status === TaskModel.Status.NOT_STARTED ? " unselected" : "")}
+          className={"taskStatus inProgress" + (this.status === TaskModel.Status.NOT_STARTED ? " unselected" : "")}
           onClick={() => this.setStatus(TaskModel.Status.IN_PROGRESS)}
         >
           <FontAwesomeIcon icon={faAngleDoubleRight} />
@@ -64,7 +47,7 @@ class Task extends React.Component {
       taskStatus.push(
         <div
           key="statusFinished"
-          className={"taskStatus finished" + (this.state.status !== TaskModel.Status.FINISHED ? " unselected" : "")}
+          className={"taskStatus finished" + (this.status !== TaskModel.Status.FINISHED ? " unselected" : "")}
           onClick={() => this.setStatus(TaskModel.Status.FINISHED)}
         >
           <FontAwesomeIcon icon={faCheck} />      
@@ -78,14 +61,14 @@ class Task extends React.Component {
           type="text"
           ref={(input) => this.input = input}
           placeholder="What do you plan to get done?"
-          defaultValue={this.state.name}
-          onChange={(event) => this.handleChange(event, this.model.id)}
-          onKeyUp={(event) => this.props.onKeyUp(event, this.model.id)}
+          defaultValue={this.name}
+          onChange={(event) => this.props.handleUpdate(this.id, event.target.value)}
+          onKeyUp={(event) => this.props.onKeyUp(event, this.id)}
         />
         {taskStatus}
         <div
           className="taskOption delete"
-          onClick={() => this.props.handleRemove()}
+          onClick={() => this.props.handleRemove(this.id)}
         >
           <FontAwesomeIcon icon={faTimes} />
         </div>

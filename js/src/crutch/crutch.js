@@ -18,16 +18,16 @@ class Crutch extends React.Component {
   }
 
   loadStandUps() {
-    //LOAD LAST 10 Stand ups
+    //TODO: update with real loading code, load last 10 stand ups
     let standUps = [];
     for(var x = 9; x > 0; x--) {
       const xDaysAgo = new Date();
       xDaysAgo.setDate(new Date().getDate() - x);
-      const standUp = new StandUpModel({date: xDaysAgo});
+      const standUp = StandUpModel.create(xDaysAgo);
       standUps.push(standUp);
     }
     //Current standup
-    standUps = standUps.concat([new StandUpModel()]);
+    standUps = standUps.concat([StandUpModel.create()]);
     return standUps;
   }
 

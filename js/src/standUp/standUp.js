@@ -7,10 +7,9 @@ import TaskModel from './models/taskModel';
 class StandUp extends React.Component {
   constructor(props) {
     super(props);
-    this.model = props.model;
+    this.date = props.model.date;
     this.state = {
-      date: this.model.date,
-      tasks: this.model.tasks,
+      tasks: props.model.tasks,
     };
   }
 
@@ -30,12 +29,29 @@ class StandUp extends React.Component {
     this.setState({
       tasks: this.state.tasks.filter(task => task.id != id)
     });
+    console.log("removed task id: " + id);
+  }
+
+  updateTask(id, name) {
+    const tasks = this.state.tasks.map((task) => {
+      if (task.id == id) {
+        const updatedTask = {
+          ...task,
+          name: name
+        };
+        return updatedTask
+      }
+      return task;
+    });
+    this.setState({
+        tasks: tasks
+    });
   }
 
   addTask() {
     const tasks = this.state.tasks;
     let updatedTasks = tasks.concat([
-      new TaskModel({date: this.state.date})
+        TaskModel.create({date: this.state.date})
     ]);
     this.setState({
       tasks: updatedTasks,
@@ -49,11 +65,13 @@ class StandUp extends React.Component {
         model={task}
         onKeyUp={(event, id) => this.handleKeyUp(event, id)}
         handleRemove={(id) => this.removeTask(id)}
+        handleUpdate={(id, name) => this.updateTask(id, name)}
       />
     );
   }
 
   render() {
+   console.log(this.state.tasks);
     const tasks = this.state.tasks.map((task) => this.renderTask(task));
     return (
       <div>
