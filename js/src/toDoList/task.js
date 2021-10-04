@@ -1,6 +1,6 @@
 import React from "react";
-import TaskModel from 'src/standUp/models/taskModel';
-import "src/standUp/static/styles/task.css";
+import TaskModel from 'src/toDoList/models/taskModel';
+import "src/toDoList/static/styles/task.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faAngleDoubleRight, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { TASK_IN_PROGRESS, TASK_FINISHED } from 'src/common/features';
@@ -9,9 +9,7 @@ class Task extends React.Component {
 
   constructor(props) {
     super(props);
-    this.id = props.model.id;
-    this.status = TaskModel.Status.NOT_STARTED;
-    this.name = props.model.name;
+    this.id = props.id;
   }
 
   componentDidMount() {
@@ -61,7 +59,7 @@ class Task extends React.Component {
           type="text"
           ref={(input) => this.input = input}
           placeholder="What do you plan to get done?"
-          defaultValue={this.name}
+          defaultValue={this.props.name}
           onChange={(event) => this.props.handleUpdate(this.id, event.target.value)}
           onKeyUp={(event) => this.props.onKeyUp(event, this.id)}
         />
