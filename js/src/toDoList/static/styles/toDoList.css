@@ -15,3 +15,8 @@
 .add:focus {
   outline: none;
 }
+
+#taskList {
+  display: inline-block;
+  width: 600px;
+}

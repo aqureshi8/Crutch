@@ -59,7 +59,7 @@ class ToDoList extends React.Component {
   render() {
     const tasks = this.props.tasks.map((task) => this.renderTask(task));
     return (
-      <div>
+      <div id="taskList">
         {tasks}
         <button
           id="addTask"
