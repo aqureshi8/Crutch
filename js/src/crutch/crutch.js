@@ -42,10 +42,10 @@ class Crutch extends React.Component {
     });
   }
 
-  updateTasks(id, tasks) {
+  updateTasks(externalId, tasks) {
     const toDoLists = this.state.toDoLists;
     const newToDoLists = toDoLists.map((toDoList) => {
-      if (toDoList.id == id) {
+      if (toDoList.externalId == externalId) {
         const updatedToDoList = {
           ...toDoList,
           tasks: tasks
@@ -59,10 +59,10 @@ class Crutch extends React.Component {
     });
   }
 
-  addTask(id) {
+  addTask(externalId) {
     const toDoLists = this.state.toDoLists;
     const newToDoLists = toDoLists.map((toDoList) => {
-      if (toDoList.id == id) {
+      if (toDoList.externalId == externalId) {
         const updatedTasks = toDoList.tasks.concat([
           TaskModel.create({date: this.state.date})
         ]);
@@ -82,10 +82,10 @@ class Crutch extends React.Component {
   renderToDoList(toDoList) {
     return (
       <ToDoList
-        key={toDoList.id}
+        key={toDoList.externalId}
         tasks={toDoList.tasks}
-        updateTasks={(tasks) => this.updateTasks(toDoList.id, tasks)}
-        addTask={() => this.addTask(toDoList.id)}
+        updateTasks={(tasks) => this.updateTasks(toDoList.externalId, tasks)}
+        addTask={() => this.addTask(toDoList.externalId)}
       />
     );
   }
@@ -108,7 +108,7 @@ class Crutch extends React.Component {
     const leftToggleDisabled = currentToDoList - 1 < 0
     const rightToggleDisabled = currentToDoList + 1 >= toDoLists.length;
     return (
-      <div className="crutch">
+      <div id="crutch">
         <div className="dateToggle">
           <div
             className={"dateToggleButton" + (leftToggleDisabled ? " disabledToggle" : "")}

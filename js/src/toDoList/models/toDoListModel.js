@@ -1,8 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 
 class ToDoListModel {
-  static create(id =  uuidv4(), date = new Date(Date.now()), tasks = []) {
-    return {id: id, date: date, tasks: tasks}
+  static create(externalId =  uuidv4(), date = new Date(Date.now()), tasks = []) {
+    return {
+      externalId: externalId,
+      date: date,
+      tasks: tasks
+    };
   }
 
   static createWithDate(date) {

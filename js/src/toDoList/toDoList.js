@@ -15,23 +15,23 @@ class ToDoList extends React.Component {
     }
   }
 
-  handleKeyUp(event, id) {
+  handleKeyUp(event, externalId) {
     const tasks = this.props.tasks;
-    if (event.keyCode === 13 && tasks[tasks.length - 1].id === id) {
+    if (event.keyCode === 13 && tasks[tasks.length - 1].externalId === externalId) {
       event.preventDefault();
       this.props.addTask();
     }
   }
 
-  /*removeTask(id) {
+  /*removeTask(externalId) {
     this.setState({
-      tasks: this.state.tasks.filter(task => task.id != id)
+      tasks: this.state.tasks.filter(task => task.externalId != externalId)
     });
   }*/
 
-  updateTask(id, name) {
+  updateTask(externalId, name) {
     const tasks = this.props.tasks.map((task) => {
-      if (task.id == id) {
+      if (task.externalId == externalId) {
         const updatedTask = {
           ...task,
           name: name
@@ -46,12 +46,12 @@ class ToDoList extends React.Component {
   renderTask(task) {
     return (
       <Task
-        key={task.id}
-        id={task.id}
+        key={task.externalId}
+        externalId={task.externalId}
         name={task.name}
-        onKeyUp={(event, id) => this.handleKeyUp(event, id)}
-        handleRemove={(id) => this.removeTask(id)}
-        handleUpdate={(id, name) => this.updateTask(id, name)}
+        onKeyUp={(event, externalId) => this.handleKeyUp(event, externalId)}
+        handleRemove={(externalId) => this.removeTask(externalId)}
+        handleUpdate={(externalId, name) => this.updateTask(externalId, name)}
       />
     );
   }

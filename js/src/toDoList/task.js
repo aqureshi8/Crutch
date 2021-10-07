@@ -9,7 +9,7 @@ class Task extends React.Component {
 
   constructor(props) {
     super(props);
-    this.id = props.id;
+    this.externalId = props.externalId;
   }
 
   componentDidMount() {
@@ -60,13 +60,13 @@ class Task extends React.Component {
           ref={(input) => this.input = input}
           placeholder="What do you plan to get done?"
           defaultValue={this.props.name}
-          onChange={(event) => this.props.handleUpdate(this.id, event.target.value)}
-          onKeyUp={(event) => this.props.onKeyUp(event, this.id)}
+          onChange={(event) => this.props.handleUpdate(this.externalId, event.target.value)}
+          onKeyUp={(event) => this.props.onKeyUp(event, this.externalId)}
         />
         {taskStatus}
         <div
           className="taskOption delete"
-          onClick={() => this.props.handleRemove(this.id)}
+          onClick={() => this.props.handleRemove(this.externalId)}
         >
           <FontAwesomeIcon icon={faTimes} />
         </div>

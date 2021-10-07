@@ -13,9 +13,8 @@ class TaskModel {
     }
 
     return {
-        id: params.id ? params.id : uuidv4(),
+        externalId: params.id ? params.id : uuidv4(),
         name: params.name ? params.name : "",
-        date: params.date ? params.date : new Date(Date.now()),
         status: params.status ? params.status : TaskModel.Status.NOT_STARTED
     }
   }
