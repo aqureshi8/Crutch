@@ -6,9 +6,10 @@ import 'src/crutch/static/styles/crutch.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretSquareLeft, faCaretSquareRight } from '@fortawesome/free-regular-svg-icons';
 import Task from 'src/toDoList/task';
-import TaskModel from "src/toDoList/models/taskModel.js";
-import StandUp from "src/crutch/standUp.js";
-
+import TaskModel from 'src/toDoList/models/taskModel.js';
+import StandUp from 'src/crutch/standUp.js';
+import axios from 'axios';
+import { getCsrfToken } from 'src/common/requestHelper.js';
 
 class Crutch extends React.Component {
   constructor(props) {
@@ -99,6 +100,22 @@ class Crutch extends React.Component {
     );
   }
 
+  saveStandUp(toDoList) {
+    var csrftoken = getCsrfToken();
+    var headers = {
+      "X-CSRFToken": csrftoken
+    };
+    var data = {
+      toDoList: toDoList
+    };
+    axios.post("/standUp", data, { headers: headers })
+    .then(function(response) {
+      console.log(response);
+    }).catch(function (error) {
+      console.log(error);
+    });
+  }
+
   render() {
     const toDoLists = this.state.toDoLists;
     const currentToDoList = this.state.currentToDoList;
@@ -126,6 +143,7 @@ class Crutch extends React.Component {
         </div>
         {this.renderToDoList(displayToDoList)}
         {this.renderStandUp(lastToDoList, displayToDoList)}
+        <div id="js-save-standup" onClick={() => this.saveStandUp()}>SAVE</div>
       </div>
     );
   }
