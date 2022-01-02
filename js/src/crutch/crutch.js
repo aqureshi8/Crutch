@@ -16,10 +16,13 @@ class Crutch extends React.Component {
     super(props);
     const toDoLists = this.loadToDoLists();
     const currentToDoList = toDoLists.length - 1;
+    this.tasksToSave = false;
     this.state = {
       toDoLists: toDoLists,
-      currentToDoList: currentToDoList
+      currentToDoList: currentToDoList,
+      saving: false
     }
+    setTimeout(() => this.saveTasks(), 10000);
   }
 
   loadToDoLists() {
@@ -58,6 +61,28 @@ class Crutch extends React.Component {
     this.setState({
       toDoLists: newToDoLists
     });
+    this.tasksToSave = true;
+  }
+
+  async saveTasks() {
+    if (this.tasksToSave) {
+      console.log("saving");
+      this.setState({saving: true});
+      var x = 0;
+      while (x < 5) {
+        await this.sleep(1000);
+        x+= 1;
+      }
+      this.setState({saving: false});
+      this.tasksToSave = false;
+    } else {
+      console.log("nothing to save");
+    }
+    setTimeout(() => this.saveTasks(), 10000);
+  }
+
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   addTask(externalId) {
@@ -100,6 +125,14 @@ class Crutch extends React.Component {
     );
   }
 
+  renderAutoSave() {
+    if (this.state.saving) {
+      return (<div>Saving</div>);
+    } else {
+      return;
+    }
+  }
+
   saveStandUp(toDoList) {
     var csrftoken = getCsrfToken();
     var headers = {
@@ -108,6 +141,7 @@ class Crutch extends React.Component {
     var data = {
       toDoList: toDoList
     };
+    console.log(data);
     axios.post("/standUp", data, { headers: headers })
     .then(function(response) {
       console.log(response);
@@ -124,6 +158,7 @@ class Crutch extends React.Component {
     const title = displayToDoList.date.toDateString();
     const leftToggleDisabled = currentToDoList - 1 < 0
     const rightToggleDisabled = currentToDoList + 1 >= toDoLists.length;
+    const autosave = this.renderAutoSave();
     return (
       <div id="crutch">
         <div className="dateToggle">
@@ -143,7 +178,7 @@ class Crutch extends React.Component {
         </div>
         {this.renderToDoList(displayToDoList)}
         {this.renderStandUp(lastToDoList, displayToDoList)}
-        <div id="js-save-standup" onClick={() => this.saveStandUp()}>SAVE</div>
+        {autosave}
       </div>
     );
   }
