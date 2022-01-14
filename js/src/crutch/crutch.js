@@ -22,7 +22,7 @@ class Crutch extends React.Component {
       currentToDoList: currentToDoList,
       saving: false
     }
-    setTimeout(() => this.saveTasks(), 10000);
+    setTimeout(() => this.autoSave(), 10000);
   }
 
   loadToDoLists() {
@@ -64,21 +64,19 @@ class Crutch extends React.Component {
     this.tasksToSave = true;
   }
 
-  async saveTasks() {
+  async autoSave() {
     if (this.tasksToSave) {
       console.log("saving");
-      this.setState({saving: true});
-      var x = 0;
-      while (x < 5) {
-        await this.sleep(1000);
-        x+= 1;
-      }
+      this.setState({ saving: true });
+      var currentToDoList = this.state.currentToDoList;
+      var toDoListToSave = this.state.toDoLists[currentToDoList];
+      this.saveStandUp(toDoListToSave);
       this.setState({saving: false});
       this.tasksToSave = false;
     } else {
       console.log("nothing to save");
     }
-    setTimeout(() => this.saveTasks(), 10000);
+    setTimeout(() => this.autoSave(), 10000);
   }
 
   sleep(ms) {

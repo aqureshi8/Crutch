@@ -2,6 +2,7 @@ from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.views.decorators.csrf import ensure_csrf_cookie
 import os
+import json
 import logging
 
 
@@ -23,5 +24,5 @@ def standUp(request):
         return saveStandUp(request)
 
 def saveStandUp(request):
-    print(request)
+    toDoList = json.loads(request.body.decode("utf-8"))
     return JsonResponse({ "success": True })
