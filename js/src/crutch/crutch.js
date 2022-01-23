@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 import 'src/crutch/static/styles/crutch.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretSquareLeft, faCaretSquareRight } from '@fortawesome/free-regular-svg-icons';
-import Task from 'src/toDoList/task';
 import TaskModel from 'src/toDoList/models/taskModel.js';
 import StandUp from 'src/crutch/standUp.js';
 import axios from 'axios';
@@ -139,7 +138,6 @@ class Crutch extends React.Component {
     var data = {
       toDoList: toDoList
     };
-    console.log(data);
     axios.post("/standUp", data, { headers: headers })
     .then(function(response) {
       console.log(response);

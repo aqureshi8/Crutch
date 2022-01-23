@@ -18,7 +18,6 @@ def index(request):
     except FileNotFoundError:
         logging.exception('Production build of app not found')
 
-@ensure_csrf_cookie
 def standUp(request):
     if request.method == "POST":
         return saveStandUp(request)
