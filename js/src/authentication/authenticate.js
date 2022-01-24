@@ -23,8 +23,14 @@ class Authenticate extends React.Component {
       stage: Stage.GetUsername,
       pin: pin,
     };
+    this.initialInputRef = React.createRef();
   }
 
+  componentDidMount() {
+    if (this.initialInputRef.current) {
+      this.initialInputRef.current.focus();
+    }
+  }
 
   submitUsername() {
     if (usernameExists()) {
@@ -39,10 +45,10 @@ class Authenticate extends React.Component {
     });
   }
 
-  handlePinChange(event, index) {
-    let newPin = [...this.state.pin];
-    newPin[index] = event.target.value
-    this.setState({pin: newPin});
+  handleUsernameKeyUp(event) {
+    if (event.keyCode === 13) {
+      this.submitUsername();
+    }
   }
 
   renderGetUsername() {
@@ -55,8 +61,10 @@ class Authenticate extends React.Component {
           maxLength="15"
           placeholder="Username"
           value={this.state.username}
-          onChange={(event) => this.handleUsernameChange(event)}>
-        </input>
+          onChange={(event) => this.handleUsernameChange(event)}
+          onKeyUp={(event) => this.handleUsernameKeyUp(event)}
+          ref={this.initialInputRef}
+        />
         <div id="submitUsername" onClick={() => this.submitUsername()}>
           <FontAwesomeIcon icon={faArrowCircleRight} />
         </div>
@@ -70,17 +78,33 @@ class Authenticate extends React.Component {
     );
   }
 
+
+  handlePinChange(event, index, nextPinBoxRef) {
+    let newPin = [...this.state.pin];
+    newPin[index] = event.target.value
+    this.setState({pin: newPin});
+    if (nextPinBoxRef.current != null && newPin[index] != "") {
+      nextPinBoxRef.current.focus();
+    }
+  }
+
   renderLogin() {
     let pinSubmission = [];
+    let refs = [];
     for (let x = 0; x < this.state.pin.length; x++) {
+      refs.push(React.createRef());
       pinSubmission.push(
         <input
+          name={"pinbox-" + x}
+          className="pinbox"
           type="text"
           pattern="\d"
           maxLength="1"
           key={x}
           value={this.state.pin[x]}
-          onChange={(event) => this.handlePinChange(event, x)}/>
+          onChange={(event) => this.handlePinChange(event, x, refs[x])}
+          ref={x > 0 ? refs[x-1] : null}
+        />
       );
     }
     return (
