@@ -11,7 +11,7 @@ import logging
 index_file_path = os.path.join(settings.REACT_APP_DIR, 'build', 'index.html')
 
 
-def index(request):
+def crutch(request):
     try:
         with open(index_file_path) as f:
             return HttpResponse(f.read())

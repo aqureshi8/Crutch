@@ -3,10 +3,14 @@ import jQuery from 'jquery';
 let backendHost;
 let cors;
 const apiVersion = 'v1';
+let mock = true;
 
-const hostname = window && window.location && window.location.hostname;
+const HOSTNAME = window && window.location && window.location.hostname;
 
-if (hostname === 'crutch.com') {
+
+console.log(HOSTNAME);
+
+if (HOSTNAME === 'crutch.com') {
   backendHost = 'https://www.crutch.com/';
   cors = 'cors';
 } else {
@@ -32,6 +36,7 @@ function getCsrfToken() {
     return getCookie('csrftoken');
 }
 
-export const URL_ROOT = `${backendHost}`;
+export const URL_ROOT = backendHost;
 export const CORS = cors;
+export const MOCK_REQUEST = mock;
 export { getCookie, getCsrfToken };

@@ -16,10 +16,12 @@ class App extends React.Component {
               <div className="authenticate">Login</div>
             </a>
           </div>
-          <Switch>
-            <Route path="/" exact component={Crutch} />
-            <Route path="/authenticate" exact component={Authenticate} />
-          </Switch>
+          <div id="content">
+            <Switch>
+              <Route path="/" exact component={Crutch} />
+              <Route path="/authenticate" exact component={Authenticate} />
+            </Switch>
+          </div>
         </div>
       </Router>
     )
