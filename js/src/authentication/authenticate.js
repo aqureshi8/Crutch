@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
 import "src/authentication/static/styles/authenticate.css";
-import { usernameExists } from 'src/authentication/authenticationRepo.js';
+import { login, usernameExists } from 'src/authentication/authenticationRepo.js';
 
 const Stage = {
   GetUsername: 0,
@@ -14,14 +14,14 @@ Object.freeze(Stage);
 class Authenticate extends React.Component {
   constructor(props) {
     super(props);
-    let pin = [];
+    let pinNumbers = [];
     for (let x = 0; x < 6; x++) {
-      pin.push("");
+      pinNumbers.push("");
     }
     this.state = {
       username: "",
       stage: Stage.GetUsername,
-      pin: pin,
+      pinNumbers: pinNumbers,
     };
     this.initialInputRef = React.createRef();
   }
@@ -33,7 +33,7 @@ class Authenticate extends React.Component {
   }
 
   submitUsername() {
-    if (usernameExists()) {
+    if (usernameExists(this.state.username)) {
       this.setState({stage: Stage.Login})
     }
     return true;
@@ -80,18 +80,30 @@ class Authenticate extends React.Component {
 
 
   handlePinChange(event, index, nextPinBoxRef) {
-    let newPin = [...this.state.pin];
-    newPin[index] = event.target.value
-    this.setState({pin: newPin});
-    if (nextPinBoxRef.current != null && newPin[index] != "") {
-      nextPinBoxRef.current.focus();
+    let newPinNumbers = [...this.state.pinNumbers];
+    newPinNumbers[index] = event.target.value
+    this.setState({pinNumbers: newPinNumbers});
+    if (nextPinBoxRef.current != null) {
+      if (newPinNumbers[index] != "") {
+        nextPinBoxRef.current.focus();
+      }
+    } else {
+      this.submitPin(newPinNumbers);
+    }
+  }
+
+  submitPin(pinNumbers) {
+    let pinCode = pinNumbers.join('');
+    console.log(pinCode);
+    if (login(this.state.username, pinCode)) {
+      console.log("LOGGED IN");
     }
   }
 
   renderLogin() {
     let pinSubmission = [];
     let refs = [];
-    for (let x = 0; x < this.state.pin.length; x++) {
+    for (let x = 0; x < this.state.pinNumbers.length; x++) {
       refs.push(React.createRef());
       pinSubmission.push(
         <input
@@ -101,7 +113,7 @@ class Authenticate extends React.Component {
           pattern="\d"
           maxLength="1"
           key={x}
-          value={this.state.pin[x]}
+          value={this.state.pinNumbers[x]}
           onChange={(event) => this.handlePinChange(event, x, refs[x])}
           ref={x > 0 ? refs[x-1] : null}
         />

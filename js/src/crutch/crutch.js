@@ -1,16 +1,16 @@
-import React from 'react';
+import AuthenticatedComponent from 'src/common/AuthenticatedComponent';
 import ToDoList from 'src/toDoList/toDoList';
 import ToDoListModel from 'src/toDoList/models/toDoListModel';
 import { v4 as uuidv4 } from 'uuid';
 import 'src/crutch/static/styles/crutch.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretSquareLeft, faCaretSquareRight } from '@fortawesome/free-regular-svg-icons';
-import TaskModel from 'src/toDoList/models/taskModel.js';
-import StandUp from 'src/crutch/standUp.js';
+import TaskModel from 'src/toDoList/models/taskModel';
+import StandUp from 'src/crutch/standUp';
 import axios from 'axios';
-import { getCsrfToken } from 'src/common/requestHelper.js';
+import { getCsrfToken } from 'src/common/requestHelper';
 
-class Crutch extends React.Component {
+class Crutch extends AuthenticatedComponent {
   constructor(props) {
     super(props);
     const toDoLists = this.loadToDoLists();
